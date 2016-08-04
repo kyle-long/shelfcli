@@ -12,7 +12,7 @@ func main() {
         (https://github.com/kyle-long/pyshelf).
 
         Usage:
-            shelfcli <refName> (a | artifact) [-p=<localPath> | --post=<localPath>] [<remotePath>]
+            shelfcli <refName> (a | artifact) [-c=<localPath> | --create=<localPath>] [<remotePath>]
             shelfcli <refName> (m | meta) [-v=<verb> | --verb=<verb>] [--name=<name>] [--value=<value>] [--immutable] [<remotePath>]
             shelfcli <refName> (s | search) [-d=<searchData> | --data=<searchData>]... [-l=<limit> | --limit=<limit>] [-s=<sort> |--sort=<sort>]... [<remotePath>]
     `
