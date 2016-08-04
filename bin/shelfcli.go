@@ -2,6 +2,7 @@
 package main
 
 import (
+    "fmt"
     "github.com/docopt/docopt-go"
 )
 
@@ -11,10 +12,12 @@ func main() {
         (https://github.com/kyle-long/pyshelf).
 
         Usage:
-            shelfcli (a | artifact) [-p=<localPath>|--put=<localPath>] [remotePath]
-            shelfcli (m | meta) [p|put] [--name=<name>] [--value=<value>] [--immutable] [path]
-            shelfcli (s | search) [-d=<searchData>|--data=<searchData>]... [-l=<limit>|--limit=<limit>] [-s=<sort>|--sort=<sort>]... [path]
+            shelfcli (a | artifact) [-p=<localPath> | --post=<localPath>] [<remotePath>]
+            shelfcli (m | meta) [-v=<verb> | --verb=<verb>] [--name=<name>] [--value=<value>] [--immutable] [<remotePath>]
+            shelfcli (s | search) [-d=<searchData> | --data=<searchData>]... [-l=<limit> | --limit=<limit>] [-s=<sort> |--sort=<sort>]... [<remotePath>]
     `
 
-    arguments, _ := docopt.Parse(doc, nil, true, "shelfcli 0.1", false)
+    arguments, err := docopt.Parse(doc, nil, true, "shelfcli 0.1", false)
+    fmt.Println(arguments)
+    fmt.Println(err)
 }
