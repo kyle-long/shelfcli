@@ -12,9 +12,9 @@ func main() {
         (https://github.com/kyle-long/pyshelf).
 
         Usage:
-            shelfcli (a | artifact) [-p=<localPath> | --post=<localPath>] [<remotePath>]
-            shelfcli (m | meta) [-v=<verb> | --verb=<verb>] [--name=<name>] [--value=<value>] [--immutable] [<remotePath>]
-            shelfcli (s | search) [-d=<searchData> | --data=<searchData>]... [-l=<limit> | --limit=<limit>] [-s=<sort> |--sort=<sort>]... [<remotePath>]
+            shelfcli <refName> (a | artifact) [-p=<localPath> | --post=<localPath>] [<remotePath>]
+            shelfcli <refName> (m | meta) [-v=<verb> | --verb=<verb>] [--name=<name>] [--value=<value>] [--immutable] [<remotePath>]
+            shelfcli <refName> (s | search) [-d=<searchData> | --data=<searchData>]... [-l=<limit> | --limit=<limit>] [-s=<sort> |--sort=<sort>]... [<remotePath>]
     `
 
     arguments, err := docopt.Parse(doc, nil, true, "shelfcli 0.1", false)
