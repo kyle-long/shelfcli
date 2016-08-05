@@ -52,8 +52,8 @@ func main() {
             --value value                   When using the "meta" sub command, this will set the value of a particular
                                             metadata property.
 
-            --immutable                     When using the "meta" sub command, this will for a particular metadata property
-                                            to be immutable.  This only affects updates or creates.
+            --immutable                     When using the "meta" sub command, this will make a property be immutable.
+                                            This only affects updates or creates.
 
             -d serachData --date searchData Specifies a search criterial. For more information see
                                             https://github.com/kyle-long/pyshelf/blob/master/docs/api/search.md
