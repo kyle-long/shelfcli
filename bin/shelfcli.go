@@ -4,6 +4,10 @@ package main
 import (
     "fmt"
     "github.com/docopt/docopt-go"
+    "os"
+    "bufio"
+    "strings"
+    "unicode/utf8"
 )
 
 func main() {
@@ -66,6 +70,43 @@ func main() {
     `
 
     arguments, err := docopt.Parse(doc, nil, true, "shelfcli 0.1", false)
-    fmt.Println(arguments)
+    //fmt.Println(arguments)
     fmt.Println(err)
+    value, _ := find_remote_path(arguments)
+    fmt.Println(value)
+}
+
+func find_remote_path(arguments map[string]interface{})(string, bool) {
+    var success bool
+    var value string
+    var ok bool
+
+    success = false
+
+    if value, ok = arguments["<remotePath>"].(string); ! ok {
+        stdinStat, err := os.Stdin.Stat()
+
+        if err != nil {
+            fmt.Println("Error while using Stat for stdin", err)
+        } else if stdinStat.Mode() & os.ModeNamedPipe != 0 {
+            reader := bufio.NewReader(os.Stdin)
+
+            value, err = reader.ReadString('\n')
+            if utf8.RuneCountInString(value) > 0 {
+                value = strings.TrimSpace(value)
+            } else {
+                value = ""
+            }
+
+
+        } else {
+            value = ""
+        }
+    }
+
+    if value == "" {
+        success = false
+    }
+
+    return value, success
 }
