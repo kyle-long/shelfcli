@@ -15,7 +15,7 @@ func main() {
         Usage:
             shelf <refName> [--host=<host>] [--token=<token>] (a | artifact) [--create=<localPath>] <remotePath>
             shelf <refName> [--host=<host>] [--token=<token>] (m | meta) [--name=<name>] [--value=<value>] [--immutable] <remotePath>
-            shelf <refName> [--host=<host>] [-token=<token>] (s | search) [--data=<searchData>]... [--limit=<limit>] [--sort=<sort>]... <remotePath>
+            shelf <refName> [--host=<host>] [--token=<token>] (s | search) [--data=<searchData>]... [--limit=<limit>] [--sort=<sort>]... <remotePath>
 
         Sub Commands:
             a artifact                          Specifies you would like to act on an artifact.  This can include getting or
