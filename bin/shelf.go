@@ -16,9 +16,9 @@ func main() {
         (https://github.com/kyle-long/pyshelf).
 
         Usage:
-            shelfcli <refName> (a | artifact) [-c=<localPath> | --create=<localPath>] [<remotePath>]
-            shelfcli <refName> (m | meta) [-v=(PUT | POST) | --verb=(PUT | POST)] [--name=<name>] [--value=<value>] [--immutable] [<remotePath>]
-            shelfcli <refName> (s | search) [-d=<searchData> | --data=<searchData>]... [-l=<limit> | --limit=<limit>] [-s=<sort> |--sort=<sort>]... [<remotePath>]
+            shelfcli <refName> (a | artifact) [-c=<localPath> | --create=<localPath>] <remotePath>
+            shelfcli <refName> (m | meta) [--name=<name>] [--value=<value>] [--immutable] <remotePath>
+            shelfcli <refName> (s | search) [-d=<searchData> | --data=<searchData>]... [-l=<limit> | --limit=<limit>] [-s=<sort> |--sort=<sort>]... <remotePath>
 
         Sub Commands:
             a artifact                      Specifies you would like to act on an artifact.  This can include getting or
@@ -43,12 +43,6 @@ func main() {
             -c localPath --create           localPath When using the artifact sub command this indicates you will be
                                             uploading a new artifact.  The value of the option is the path locally
                                             that you wish to upload.
-
-            -v verb --verb verb             When using the "meta" sub command, this will specify how you would like to
-                                            upload metadata.  If "POST" is given it will error if that particular metadata
-                                            already exists.  If "PUT" is given it will simply update the metadata if it
-                                            exists and create it if it does not.  Note: You will not be able to update
-                                            metadata if it is set as immutable.
 
             --name name                     When using the "meta" sub command, this will make the command act on a single
                                             metadata property instead of all metadata.
