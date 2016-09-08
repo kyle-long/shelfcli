@@ -12,9 +12,9 @@ func main() {
         (https://github.com/kyle-long/pyshelf).
 
         Usage:
-            shelf <refName> [-h=<host> | --host=<host>] [-t=<token> | --token=<token>] (a | artifact) [-c=<localPath> | --create=<localPath>] <remotePath>
-            shelf <refName> [-h=<host> | --host=<host>] [-t=<token> | --token=<token>] (m | meta) [--name=<name>] [--value=<value>] [--immutable] <remotePath>
-            shelf <refName> [-h=<host> | --host=<host>] [-t=<token> | --token=<token>] (s | search) [-d=<searchData> | --data=<searchData>]... [-l=<limit> | --limit=<limit>] [-s=<sort> |--sort=<sort>]... <remotePath>
+            shelf <refName> (a | artifact) [-c=<localPath> | --create=<localPath>] <remotePath>
+            shelf <refName> (m | meta) [--name=<name>] [--value=<value>] [--immutable] <remotePath>
+            shelf <refName> (s | search) [-d=<searchData> | --data=<searchData>]... [-l=<limit> | --limit=<limit>] [-s=<sort> |--sort=<sort>]... <remotePath>
 
         Sub Commands:
             a artifact                      Specifies you would like to act on an artifact.  This can include getting or
