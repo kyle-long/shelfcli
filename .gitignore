@@ -27,8 +27,5 @@ _testmain.go
 *.sw*
 *~
 
-# Binary
-shelfcli
-
 # vim
 *.swp

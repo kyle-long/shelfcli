@@ -4,7 +4,7 @@ package main
 import (
     "fmt"
     "github.com/docopt/docopt-go"
-    // "os"
+    "github.com/kyle-long/shelfcli/shelfcli"
 )
 
 func main() {
@@ -14,7 +14,7 @@ func main() {
 
         Usage:
             shelf <refName> [--host=<host>] [--token=<token>] (a | artifact) [--create=<localPath>] <remotePath>
-            shelf <refName> [--host=<host>] [--token=<token>] (m | meta) [--name=<name>] [--value=<value>] [--immutable] <remotePath>
+            shelf <refName> [--host=<host>] [--token=<token>] (m | meta) [--key=<key>] [--value=<value>] [--immutable] <remotePath>
             shelf <refName> [--host=<host>] [--token=<token>] (s | search) [--data=<searchData>]... [--limit=<limit>] [--sort=<sort>]... <remotePath>
 
         Sub Commands:
@@ -46,10 +46,10 @@ func main() {
                                                 uploading a new artifact.  The value of the option is the path locally
                                                 that you wish to upload.
 
-            --name name                         When using the "meta" sub command, this will make the command act on a single
+            -k key --key key                    When using the "meta" sub command, this will make the command act on a single
                                                 metadata property instead of all metadata.
 
-            --value value                       When using the "meta" sub command, this will set the value of a particular
+            -v value --value value              When using the "meta" sub command, this will set the value of a particular
                                                 metadata property.
 
             --immutable                         When using the "meta" sub command, this will make a property be immutable.
@@ -65,7 +65,10 @@ func main() {
 
     `
 
-    arguments, err := docopt.Parse(doc, nil, true, "shelfcli 0.1", false)
-    fmt.Println(arguments)
-    fmt.Println(err)
+    raw_args, _ := docopt.Parse(doc, nil, true, "shelfcli 0.1", false)
+    fmt.Println(raw_args)
+    // fmt.Println(err)
+
+    arguments := shelfcli.New(raw_args)
+    arguments.Process()
 }
