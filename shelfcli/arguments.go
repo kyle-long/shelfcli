@@ -2,6 +2,7 @@ package shelfcli
 
 import (
     "os"
+    "path"
 )
 
 const ACTION_ARTIFACT string = "artifact"
@@ -11,7 +12,9 @@ const ACTION_SEARCH string = "search"
 type arguments struct {
     Host string
     Token string
+    RefName string
     RemotePath string
+    RemoteUrl string
     Action string
     LocalPath string
     MetadataKey string
@@ -33,8 +36,10 @@ func New(raw_args map[string]interface{}) (*arguments) {
 
 func (this *arguments) Process() {
     this.Host = this.getValue("--host", "SHELF_HOST")
-    this.Token = this.getValue("--token", "SHELF_AUTH_TOKEN")
     this.RemotePath = this.raw_args["<remotePath>"].(string)
+    this.RefName = this.raw_args["<refName>"].(string)
+    this.RemoteUrl = path.Join(this.Host, this.RefName, "artifact", this.RemotePath)
+    this.Token = this.getValue("--token", "SHELF_AUTH_TOKEN")
     this.SearchLimit = -1
 
     if this.getAnyArgValueDefault([]string{"a", "artifact"}, false).(bool) {
