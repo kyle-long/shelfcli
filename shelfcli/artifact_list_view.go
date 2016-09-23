@@ -10,7 +10,11 @@ type ArtifactListView struct {
 }
 
 func (this *ArtifactListView) Render() {
-    for _, link := range this.link_list {
-        this.logger.Print(link.URL)
+    if len(this.link_list) < 1 {
+        this.errorLogger.Print("Not Found")
+    } else {
+        for _, link := range this.link_list {
+            this.logger.Print(link.URL)
+        }
     }
 }

@@ -41,15 +41,13 @@ func (this *manager) runArtifact() (View) {
     var view View
     if this.args.LocalPath == "" {
         artifactLinkList, err := this.lib.ListArtifact(this.args.RemoteUrl)
+        // TODO: Right now it will return an error of EOF if no links are
+        // found, triggering the error case. This should not happen.
         if err != nil {
             view = this.handleError(err)
         } else {
             artifactLinkList := artifactLinkList.FilterByRel("item")
-            if len(artifactLinkList) == 0 {
-                // TODO: Actually handle this properly.
-                err := shelflib.NewShelfError("Not Found", "NOT_FOUND")
-                view = this.viewFactory.NewErrorView(*err)
-            } else if len(artifactLinkList) == 1 {
+            if len(artifactLinkList) == 1 {
                 response, err := this.lib.GetArtifact(this.args.RemoteUrl)
 
                 if err != nil {
@@ -81,8 +79,21 @@ func (this *manager) runMetadata() {
     }
 }
 
-func (this *manager) runSearch() {
-    // this.whatever.Search(args.RemotePath, args.SearchData, args.SearchSort, args.Limit)
+func (this *manager) runSearch() (View){
+    var view View
+    // artifactLinkList, err := this.lib.Search(
+    //     this.args.RemoteUrl,
+    //     this.args.SearchData,
+    //     this.args.SearchSort,
+    //     this.args.SearchLimit,
+    // )
+    //
+    // if err != nil {
+    //     view = this.handleError(err)
+    // } else {
+    //     view = this.viewFactory.NewArtifactListView(artifactLinkList)
+    // }
+    return view
 }
 
 func (this *manager) handleError(err error) (*ErrorView) {
