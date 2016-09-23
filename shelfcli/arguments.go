@@ -3,7 +3,6 @@ package shelfcli
 import (
     "os"
     "path"
-    "fmt" //NOCOMMIT
     "net/url"
 )
 
@@ -38,7 +37,6 @@ func NewArguments(raw_args map[string]interface{}) (*arguments) {
 
 func (this *arguments) Process() {
     this.Host = this.getValue("--host", "SHELF_HOST")
-    fmt.Println(this.Host) // NOCOMMIT
     u, err := url.Parse(this.Host)
     if err != nil {
         this.ErrorList = append(this.ErrorList, "Unabled to parse shelf host.")
