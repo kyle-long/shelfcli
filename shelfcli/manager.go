@@ -40,23 +40,27 @@ func (this *manager) Run() (View){
 func (this *manager) runArtifact() (View) {
     var view View
     if this.args.LocalPath == "" {
-        // artifactLinkList, err := this.lib.ListArtifact(this.args.RemotePath)
-        // if err != nil {
-        //     this.handleError(err)
-        // } else {
-        //     if len(artifactLinkList) == 1 {
-        response, err := this.lib.GetArtifact(this.args.RemoteUrl)
-
+        artifactLinkList, err := this.lib.ListArtifact(this.args.RemoteUrl)
         if err != nil {
             view = this.handleError(err)
         } else {
-            view = this.viewFactory.NewArtifactView(response)
+            artifactLinkList := artifactLinkList.FilterByRel("item")
+            if len(artifactLinkList) == 0 {
+                // TODO: Actually handle this properly.
+                err := shelflib.NewShelfError("Not Found", "NOT_FOUND")
+                view = this.viewFactory.NewErrorView(*err)
+            } else if len(artifactLinkList) == 1 {
+                response, err := this.lib.GetArtifact(this.args.RemoteUrl)
+
+                if err != nil {
+                    view = this.handleError(err)
+                } else {
+                    view = this.viewFactory.NewArtifactView(response)
+                }
+            } else {
+                view = this.viewFactory.NewArtifactListView(artifactLinkList)
+            }
         }
-        //     }
-        // }
-        // if there is only one link
-        // this.whatever.GetArtifact(args.RemotePath)
-        // output to stdout
     } else {
         // Attempt to open args.LocalPath and get a stream
         // this.whatever.CreateArtifact(args.RemotePath, stream)

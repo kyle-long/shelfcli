@@ -4,6 +4,7 @@ import (
     "log"
     "io"
     "github.com/quantumew/shelflib"
+    "github.com/tomnomnom/linkheader"
 )
 
 type viewFactory struct {
@@ -30,7 +31,7 @@ func (this *viewFactory) NewArtifactView(response io.ReadCloser) (*ArtifactView)
     return v
 }
 
-func (this *viewFactory) NewArtifactListView(link_list []string) (*ArtifactListView) {
+func (this *viewFactory) NewArtifactListView(link_list linkheader.Links) (*ArtifactListView) {
     v := new(ArtifactListView)
     this.assignCommonProperties(&v.view)
     v.link_list = link_list
