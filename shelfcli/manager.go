@@ -2,33 +2,58 @@ package shelfcli
 
 import (
     "log"
+    "github.com/quantumew/shelflib"
 )
+
 type manager struct {
-    Logger log.Logger
+    Logger *log.Logger
+    args *arguments
+    lib *shelflib.ShelfLib
+    viewFactory *viewFactory
 }
 
-func NewManager(logger log.Logger) (*manager) {
+func NewManager(logger *log.Logger, errorLogger *log.Logger, args *arguments) (*manager) {
     m := new(manager)
+    m.lib = shelflib.New(args.Token, errorLogger)
     m.Logger = logger
+    m.args = args
+    m.viewFactory = NewViewFactory(logger, errorLogger)
     return m
 }
 
-func (this *manager) Run(args *arguments) {
-    switch args.Action {
+func (this *manager) Run() (View){
+    var view View
+    switch this.args.Action {
         case ACTION_ARTIFACT:
-            this.runArtifact(args)
+            view = this.runArtifact()
 
         case ACTION_METADATA:
-            this.runMetadata(args)
+            this.runMetadata()
 
         case ACTION_SEARCH:
-            this.runSearch(args)
+            this.runSearch()
     }
+
+    return view
 }
 
-func (this *manager) runArtifact(args *arguments) {
-    if args.LocalPath == "" {
-        // this.whatever.ListArtifact(args.RemotePath)
+func (this *manager) runArtifact() (View) {
+    var view View
+    if this.args.LocalPath == "" {
+        // artifactLinkList, err := this.lib.ListArtifact(this.args.RemotePath)
+        // if err != nil {
+        //     this.handleError(err)
+        // } else {
+        //     if len(artifactLinkList) == 1 {
+        response, err := this.lib.GetArtifact(this.args.RemotePath)
+
+        if err != nil {
+            view = this.handleError(err)
+        } else {
+            view = this.viewFactory.NewArtifactView(response)
+        }
+        //     }
+        // }
         // if there is only one link
         // this.whatever.GetArtifact(args.RemotePath)
         // output to stdout
@@ -36,18 +61,15 @@ func (this *manager) runArtifact(args *arguments) {
         // Attempt to open args.LocalPath and get a stream
         // this.whatever.CreateArtifact(args.RemotePath, stream)
     }
+
+    return view
 }
 
-func (this *manager) runMetadata(args *arguments) {
-    if args.MetadataValue == "" {
-        // item := map[string]interface{}{
-        //     "key": args.MetadataKey,
-        //     "value": args.MetadataValue,
-        //     "immutable": args.MetadataImmutable,
-        // }
+func (this *manager) runMetadata() {
+    if this.args.MetadataValue == "" {
         // this.whatever.UpdateMetadataItem(args.RemotePath, item)
     } else {
-        if args.MetadataKey == "" {
+        if this.args.MetadataKey == "" {
             // this.whatever.GetMetadata(args.RemotePath)
         } else {
             // this.whatever.GetMetadataItem(args.RemotePath, args.MetadataKey)
@@ -55,6 +77,13 @@ func (this *manager) runMetadata(args *arguments) {
     }
 }
 
-func (this *manager) runSearch(args *arguments) {
+func (this *manager) runSearch() {
     // this.whatever.Search(args.RemotePath, args.SearchData, args.SearchSort, args.Limit)
+}
+
+func (this *manager) handleError(err error) (*ErrorView) {
+    // view := this.viewFactory.NewErrorView(err)
+    // return view
+    fakeErr := shelflib.NewShelfError(err.Error(), "BAD")
+    return this.viewFactory.NewErrorView(*fakeErr)
 }

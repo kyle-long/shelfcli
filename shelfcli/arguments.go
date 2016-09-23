@@ -28,7 +28,7 @@ type arguments struct {
     raw_args map[string]interface{}
 }
 
-func New(raw_args map[string]interface{}) (*arguments) {
+func NewArguments(raw_args map[string]interface{}) (*arguments) {
     a := new(arguments)
     a.raw_args = raw_args
     return a

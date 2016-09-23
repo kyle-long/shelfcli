@@ -2,7 +2,8 @@
 package main
 
 import (
-    "fmt"
+    "log"
+    "os"
     "github.com/docopt/docopt-go"
     "github.com/kyle-long/shelfcli/shelfcli"
 )
@@ -42,7 +43,7 @@ func main() {
 
             -t token, --token token             The authentication token for interacting with shelf.
 
-            -c localPath, --create              localPath When using the artifact sub command this indicates you will be
+            -c localPath, --create localPath    localPath When using the artifact sub command this indicates you will be
                                                 uploading a new artifact.  The value of the option is the path locally
                                                 that you wish to upload.
 
@@ -66,9 +67,13 @@ func main() {
     `
 
     raw_args, _ := docopt.Parse(doc, nil, true, "shelfcli 0.1", false)
-    fmt.Println(raw_args)
-    // fmt.Println(err)
 
-    arguments := shelfcli.New(raw_args)
+    arguments := shelfcli.NewArguments(raw_args)
     arguments.Process()
+
+    logger := log.New(os.Stdout, "", 0)
+    errorLogger := log.New(os.Stderr, "", 0)
+    manager := shelfcli.NewManager(logger, errorLogger, arguments)
+    view := manager.Run()
+    view.Render()
 }
