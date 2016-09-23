@@ -3,6 +3,8 @@ package shelfcli
 import (
     "os"
     "path"
+    "fmt" //NOCOMMIT
+    "net/url"
 )
 
 const ACTION_ARTIFACT string = "artifact"
@@ -36,9 +38,17 @@ func NewArguments(raw_args map[string]interface{}) (*arguments) {
 
 func (this *arguments) Process() {
     this.Host = this.getValue("--host", "SHELF_HOST")
+    fmt.Println(this.Host) // NOCOMMIT
+    u, err := url.Parse(this.Host)
+    if err != nil {
+        this.ErrorList = append(this.ErrorList, "Unabled to parse shelf host.")
+        return
+    }
+
     this.RemotePath = this.raw_args["<remotePath>"].(string)
     this.RefName = this.raw_args["<refName>"].(string)
-    this.RemoteUrl = path.Join(this.Host, this.RefName, "artifact", this.RemotePath)
+    u.Path = path.Join(u.Path, this.RefName, "artifact", this.RemotePath)
+    this.RemoteUrl = u.String()
     this.Token = this.getValue("--token", "SHELF_AUTH_TOKEN")
     this.SearchLimit = -1
 

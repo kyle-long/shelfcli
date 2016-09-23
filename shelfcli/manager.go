@@ -45,7 +45,7 @@ func (this *manager) runArtifact() (View) {
         //     this.handleError(err)
         // } else {
         //     if len(artifactLinkList) == 1 {
-        response, err := this.lib.GetArtifact(this.args.RemotePath)
+        response, err := this.lib.GetArtifact(this.args.RemoteUrl)
 
         if err != nil {
             view = this.handleError(err)
